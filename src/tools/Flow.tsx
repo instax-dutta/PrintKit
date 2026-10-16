@@ -7,7 +7,7 @@ const fmt = (v: number): string => (Number.isFinite(v) ? `${Math.round(v * 100) 
 export default function Flow() {
   const { store } = useStoreCtx()
   const nw = store.settings.nozzleDiameter
-  const [lineRaw, setLineRaw, , lineN] = useParsed(String(Math.round((nw / 1.1) * 1.1 * 100) / 100))
+  const [lineRaw, setLineRaw, , lineN] = useParsed('')
   const [layerRaw, setLayerRaw, okLayer, layerN] = useParsed('0.2')
   const [speedRaw, setSpeedRaw, okSpeed, speedN] = useParsed('60')
   const [maxFlowRaw, setMaxFlowRaw, , maxFlowN] = useParsed('12')
@@ -35,7 +35,7 @@ export default function Flow() {
           <Field label="Layer height" value={layerRaw} onChange={setLayerRaw} suffix="mm" />
         </div>
         <ResultRow label="Max speed (approx, extrusion-limited)" value={Number.isFinite(maxSpeedOut) ? maxSpeedOut : null} unit="mm/s" decimals={store.settings.decimals} />
-        <div className="mt-2 rounded-lg bg-white/5 p-3 text-xs text-kit-dim">
+        <div className="mt-2  bg-kit-panel p-3 text-xs text-kit-dim">
           <p className="mb-1 font-semibold">Rough hotend limits (varies by hotend / filament)</p>
           <ul className="list-disc pl-4">
             {HOTEND_LIMITS.map((h) => <li key={h.kind}>{h.kind}: {h.range}</li>)}

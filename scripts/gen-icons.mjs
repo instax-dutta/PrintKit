@@ -32,9 +32,9 @@ const tile = [...'#  ', '@  '] // palette placeholders, replaced below
 void tile
 
 function render(size) {
-  const bg = rgbFromHex('23262e')
-  const accent = rgbFromHex('60a5fa')
-  const accentDim = rgbFromHex('3b82f6')
+  const bg = rgbFromHex('16261e')
+  const accent = rgbFromHex('dff26d')
+  const accentDim = rgbFromHex('2c4436')
   const raw = Buffer.alloc(size * size * 3)
   // Tile with margin (10%), rounded corners; P occupies middle-left 40-75% rows.
   const m = Math.round(size * 0.1)

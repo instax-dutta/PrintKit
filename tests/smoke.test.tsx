@@ -12,11 +12,11 @@ describe('smoke flow 1: length converter is reachable and computes live', () => 
     cleanup()
     window.location.hash = '#/convert'
     render(<App />)
-    await screen.findByText('Formula & notes', {}, { timeout: 4000 })
+    await screen.findByText(/formula/i, {}, { timeout: 4000 })
     fireEvent.change(decimalInput(), { target: { value: '25.4' } })
     await waitFor(() => {
       const body = document.body.textContent as string
-      expect(body).toContain('1inches')
+      expect(body).toContain('1inch')
       expect(body).toContain('2.54cm')
     })
   })
@@ -27,7 +27,7 @@ describe('smoke flow 2: invalid input never shows NaN', () => {
     cleanup()
     window.location.hash = '#/convert'
     render(<App />)
-    await screen.findByText('Formula & notes', {}, { timeout: 4000 })
+    await screen.findByText(/formula/i, {}, { timeout: 4000 })
     fireEvent.change(decimalInput(), { target: { value: 'oops' } })
     expect(document.body.textContent).not.toContain('NaN')
     expect(document.body.textContent).toContain('—')

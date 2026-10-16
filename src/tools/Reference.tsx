@@ -24,7 +24,7 @@ export default function Reference() {
 
   return (
     <ToolPage title="Reference Sheets">
-      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Search ${MATERIALS.length + HOLES.metricScrews.length + NOZZLE.pairs.length} entries`} className="mb-4 min-h-[44px] w-full rounded-lg border border-kit-line bg-kit-panel px-3 text-sm" aria-label="Search reference sheets" />
+      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Search ${MATERIALS.length + HOLES.metricScrews.length + NOZZLE.pairs.length} entries`} className="mb-4 min-h-[44px] w-full  border border-kit-panel-border bg-kit-panel px-3 text-sm" aria-label="Search reference sheets" />
       <p className="mb-3 text-xs text-kit-dim">{DISCLAIMER} Editable in src/data/*.json.</p>
 
       {mats.length > 0 && (
@@ -32,7 +32,7 @@ export default function Reference() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="text-kit-dim">
-                <tr className="border-b border-kit-line">
+                <tr className="border-b border-kit-panel-border">
                   <th className="py-2 pr-2">Material</th>
                   <th className="py-2 pr-2">Density g/cm³</th>
                   <th className="py-2 pr-2">Nozzle °C</th>
@@ -44,7 +44,7 @@ export default function Reference() {
               </thead>
               <tbody>
                 {mats.map((m) => (
-                  <tr key={m.id} className="border-b border-kit-line/40">
+                  <tr key={m.id} className="border-b border-kit-panel-border">
                     <td className="py-2 pr-2 font-semibold">{m.name}</td>
                     <td className="py-2 pr-2">{m.density}</td>
                     <td className="py-2 pr-2">{m.nozzleC}</td>
@@ -65,7 +65,7 @@ export default function Reference() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="text-kit-dim">
-                <tr className="border-b border-kit-line">
+                <tr className="border-b border-kit-panel-border">
                   <th className="py-2 pr-2">Screw</th>
                   <th className="py-2 pr-2">Clearance hole</th>
                   <th className="py-2 pr-2">Tap drill</th>
@@ -75,7 +75,7 @@ export default function Reference() {
               </thead>
               <tbody>
                 {holes.map((h) => (
-                  <tr key={h.screw} className="border-b border-kit-line/40">
+                  <tr key={h.screw} className="border-b border-kit-panel-border">
                     <td className="py-2 pr-2 font-semibold">{h.screw}</td>
                     <td className="py-2 pr-2">{h.clearanceDia} mm</td>
                     <td className="py-2 pr-2">{h.tapDia} mm</td>
@@ -95,7 +95,7 @@ export default function Reference() {
           <div className="mb-3 text-xs text-kit-dim">{NOZZLE.ruleOfThumb}</div>
           <table className="w-full text-left text-xs">
             <thead className="text-kit-dim">
-              <tr className="border-b border-kit-line">
+              <tr className="border-b border-kit-panel-border">
                 <th className="py-2 pr-2">Nozzle</th>
                 <th className="py-2 pr-2">Line width</th>
                 <th className="py-2 pr-2">Layer height</th>
@@ -103,7 +103,7 @@ export default function Reference() {
             </thead>
             <tbody>
               {pairs.map((p) => (
-                <tr key={p.nozzle} className="border-b border-kit-line/40">
+                <tr key={p.nozzle} className="border-b border-kit-panel-border">
                   <td className="py-2 pr-2 font-semibold">{p.nozzle} mm</td>
                   <td className="py-2 pr-2">{p.lineWidth} mm</td>
                   <td className="py-2 pr-2">{p.layerHeight} mm</td>

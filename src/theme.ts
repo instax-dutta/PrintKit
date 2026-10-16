@@ -12,7 +12,7 @@ export function isDarkPrefNow(theme: Settings['theme']): boolean {
 export function applyTheme(theme: Settings['theme']): void {
   const root = document.documentElement
   const dark = isDarkPrefNow(theme)
-  root.classList.toggle('dark', dark)
+  root.classList.toggle('light', !dark)
   const meta = document.querySelector('meta[name="theme-color"]')
-  if (meta) meta.setAttribute('content', dark ? '#15181f' : '#f4f6f9')
+  if (meta) meta.setAttribute('content', dark ? '#16261e' : '#eceee6')
 }

@@ -7,13 +7,13 @@ All formulas behind PrintKit's tools as pure, UI-free TypeScript. These are the 
 ## Ownership
 
 - `length.ts` - unit conversions (mm/cm/m/in/ft/µm)
-- `scale.ts` - scale factor from percent, radii, or 1:1 ratio strings
+- `scale.ts` - scale factor from percent, target dimension, or fit-to-build-volume
 - `filament.ts` - filament length <-> grams via `π*(d/2)^2` volume and material density
 - `cost.ts` - print cost roll-up (filament, electricity, machine wear, labor, failure buffer)
 - `shrinkage.ts` - shrinkage division model `1/(1-s/100)`
-- `tolerance.ts` - clearance and fit guidance
+- `tolerance.ts` - clearance and fit guidance (editable ranges)
 - `flow.ts` - extrusion flow factor for line width/nozzle/layer height
-- `calibration.ts` - first-layer/bed calibration step logic
+- `calibration.ts` - e-steps / Klipper rotation distance, axis steps/mm, dimensional correction
 - `layers.ts` - layer height guidance and print-time estimation
 
 ## Local Contracts

@@ -4,11 +4,13 @@ import type { Material, Printer, Settings, Store } from './store'
 import { load, save } from './store'
 
 export const useStore = () => {
-  const [store, setStore] = useState<Store>(() => load().store)
-  const [degraded] = useState(() => load().degraded)
+  const [initial] = useState(() => load())
+  const [store, setStore] = useState<Store>(initial.store)
+  const [degraded] = useState(initial.degraded)
+  const [saveFailed, setSaveFailed] = useState(false)
 
   useEffect(() => {
-    if (store.initialized) void save(store)
+    if (store.initialized && !save(store)) setSaveFailed(true)
   }, [store])
 
   const setSettings = useCallback((patch: Partial<Settings>) => {
@@ -32,7 +34,7 @@ export const useStore = () => {
 
   const setStoreAll = useCallback((next: Store) => {
     setStore(next)
-    void save(next)
+    if (!save(next)) setSaveFailed(true)
   }, [])
 
   const reset = useCallback(() => {
@@ -42,9 +44,10 @@ export const useStore = () => {
       /* storage unavailable already flagged degraded */
     }
     setStore(load().store)
+    setSaveFailed(false)
   }, [])
 
-  return { store, setSettings, addRecent, setMaterials, setPrinters, setStoreAll, reset, degraded }
+  return { store, setSettings, addRecent, setMaterials, setPrinters, setStoreAll, reset, degraded, saveFailed }
 }
 
 export type UseStore = ReturnType<typeof useStore>

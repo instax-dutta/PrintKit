@@ -11,7 +11,7 @@ export default function Layers() {
   const [layerRaw, setLayerRaw, okLayer, layerN] = useParsed('0.2')
   const [volRaw, setVolRaw, okVol, volN] = useParsed('')
   const [flowRaw, setFlowRaw, okFlow, flowN] = useParsed('10')
-  const [lineRaw, setLineRaw, okLine, lineN] = useParsed(String(nw / 1.1))
+  const [lineRaw, setLineRaw, okLine, lineN] = useParsed(String(Math.round(nw * 1.1 * 100) / 100))
 
   const c = okH && okLayer && okFirst ? layers(hN, firstN, layerN) : null
   const sanity = okLayer ? layerSanity(layerN, nw) : null
@@ -34,7 +34,7 @@ export default function Layers() {
         </div>
         <ResultRow label="Number of layers" value={c ? c.count : null} decimals={0} />
         <ResultRow label="Top layer Z" value={c ? c.topZMm : null} unit="mm" kind="length" decimals={store.settings.decimals} />
-        {sanity ? <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-300">{sanity}</div> : null}
+        {sanity ? <div className=" border border-kit-pink bg-kit-panel p-3 text-xs text-kit-pink">{sanity}</div> : null}
         <FormulaNote>
           <p>layers = ceil((height − first layer) ÷ layer height) + 1; top Z = first layer + (layers − 1) × layer height. Guidance: keep layer height 10-80% of your {nw} mm nozzle.</p>
         </FormulaNote>

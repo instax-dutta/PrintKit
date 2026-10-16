@@ -30,14 +30,14 @@ export default function Filament() {
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-kit-dim">Material</span>
-            <select className="min-h-[44px] w-full rounded-lg border border-kit-line bg-kit-bg px-3 text-sm" value={matId} onChange={(e) => setMatId(e.target.value)}>
+            <select className="min-h-[44px] w-full  border border-kit-panel-border bg-kit-inset px-3 text-sm" value={matId} onChange={(e) => setMatId(e.target.value)}>
               {store.materials.map((m) => <option key={m.id} value={m.id}>{m.name} ({m.density} g/cm³)</option>)}
               <option value="__custom">Custom density…</option>
             </select>
           </label>
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-kit-dim">Diameter</span>
-            <select className="min-h-[44px] w-full rounded-lg border border-kit-line bg-kit-bg px-3 text-sm" value={customDiamOpen ? '__custom' : ['1.75', '2.85'].includes(diam) ? diam : ''} onChange={(e) => { if (e.target.value === '__custom') { setCustomDiamOpen(true) } else { setCustomDiamOpen(false); setDiam(e.target.value) } }}>
+            <select className="min-h-[44px] w-full  border border-kit-panel-border bg-kit-inset px-3 text-sm" value={customDiamOpen ? '__custom' : ['1.75', '2.85'].includes(diam) ? diam : ''} onChange={(e) => { if (e.target.value === '__custom') { setCustomDiamOpen(true) } else { setCustomDiamOpen(false); setDiam(e.target.value) } }}>
               {['1.75', '2.85'].map((dd) => <option key={dd} value={dd}>{dd} mm</option>)}
               <option value="__custom">Custom…</option>
             </select>
@@ -54,7 +54,7 @@ export default function Filament() {
       <Card title="Weight, length, volume">
         <div className="mb-3 flex gap-2">
           {(['weight', 'length', 'volume'] as const).map((k) => (
-            <button key={k} type="button" onClick={() => setKnown(k)} aria-pressed={known === k} className={`min-h-[44px] flex-1 rounded-lg border px-2 text-xs font-semibold ${known === k ? 'border-kit-accent text-kit-accent' : 'border-kit-line text-kit-dim'}`}>
+            <button key={k} type="button" onClick={() => setKnown(k)} aria-pressed={known === k} className={`min-h-[44px] flex-1  border px-2 text-xs font-semibold ${known === k ? 'border-kit-accent text-kit-accent' : 'border-kit-panel-border text-kit-dim'}`}>
               I know the {k}
             </button>
           ))}
@@ -80,7 +80,7 @@ export default function Filament() {
             </>
           )
         ) : (
-          <div className="divide-y divide-kit-line/60"><ResultRow label="Pick a material, then enter a value" value="" /></div>
+          <div className="divide-y divide-kit-line"><ResultRow label="Pick a material, then enter a value" value="" /></div>
         )}
         <FormulaNote>
           <p>volume cm³ = π × (diameter mm ÷ 20)² × length cm; weight g = volume cm³ × density g/cm³. Diameter in mm → radius cm is d ÷ 20.</p>

@@ -52,6 +52,66 @@ export const defaultSettings = (): Settings => ({
   theme: 'system',
 })
 
+const num = (v: unknown, fallback: number): number => (typeof v === 'number' && Number.isFinite(v) ? v : fallback)
+
+// Trust boundary (PRD 5.3): an imported or stored file may carry wrong types.
+// Every field is coerced to the shape Settings promises, so no bad import can
+// later reach fmt() and render NaN.
+export function sanitizeSettings(raw: unknown): Settings {
+  const base = defaultSettings()
+  if (!raw || typeof raw !== 'object') return base
+  const s = raw as Record<string, unknown>
+  const decimals = num(s.decimals, base.decimals)
+  return {
+    currency: typeof s.currency === 'string' && s.currency !== '' ? s.currency : base.currency,
+    electricityPerKwh: num(s.electricityPerKwh, base.electricityPerKwh),
+    filamentDiameter: num(s.filamentDiameter, base.filamentDiameter),
+    nozzleDiameter: num(s.nozzleDiameter, base.nozzleDiameter),
+    decimals: Number.isInteger(decimals) && decimals >= 0 && decimals <= 6 ? decimals : base.decimals,
+    theme: s.theme === 'dark' || s.theme === 'light' || s.theme === 'system' ? s.theme : base.theme,
+  }
+}
+
+function sanitizeMaterials(raw: unknown, fallback: Material[]): Material[] {
+  if (!Array.isArray(raw)) return fallback
+  return raw.flatMap((item): Material[] => {
+    if (!item || typeof item !== 'object') return []
+    const m = item as Record<string, unknown>
+    if (typeof m.id !== 'string' || typeof m.name !== 'string' || !(num(m.density, 0) > 0)) return []
+    return [{
+      id: m.id,
+      name: m.name,
+      density: num(m.density, 0),
+      pricePerKg: typeof m.pricePerKg === 'number' && Number.isFinite(m.pricePerKg) ? m.pricePerKg : undefined,
+      shrinkagePct: typeof m.shrinkagePct === 'number' && Number.isFinite(m.shrinkagePct) ? m.shrinkagePct : undefined,
+      builtIn: m.builtIn === true,
+    }]
+  })
+}
+
+function sanitizePrinters(raw: unknown): Printer[] {
+  if (!Array.isArray(raw)) return []
+  return raw.flatMap((item): Printer[] => {
+    if (!item || typeof item !== 'object') return []
+    const p = item as Record<string, unknown>
+    if (typeof p.id !== 'string' || typeof p.name !== 'string') return []
+    const x = num(p.buildX, 0)
+    const y = num(p.buildY, 0)
+    const z = num(p.buildZ, 0)
+    if (!(x > 0 && y > 0 && z > 0)) return []
+    return [{
+      id: p.id,
+      name: p.name,
+      buildX: x,
+      buildY: y,
+      buildZ: z,
+      nozzle: num(p.nozzle, 0.4),
+      powerW: num(p.powerW, 0),
+      wearPerHour: typeof p.wearPerHour === 'number' && Number.isFinite(p.wearPerHour) ? p.wearPerHour : undefined,
+    }]
+  })
+}
+
 export function builtinMaterials(): Material[] {
   return (materialsData as Array<Record<string, unknown>>).map((m) => ({
     id: `built-in-${m.id as string}`,
@@ -88,10 +148,10 @@ export function migrate(raw: unknown): Store {
   const base = defaultStore()
   return {
     version: 1,
-    settings: { ...base.settings, ...(s.settings ?? {}) },
-    materials: Array.isArray(s.materials) ? s.materials : base.materials,
-    printers: Array.isArray(s.printers) ? s.printers : base.printers,
-    recentTools: Array.isArray(s.recentTools) ? s.recentTools.slice(0, 3) : [],
+    settings: sanitizeSettings(s.settings),
+    materials: sanitizeMaterials(s.materials, base.materials),
+    printers: sanitizePrinters(s.printers),
+    recentTools: Array.isArray(s.recentTools) ? s.recentTools.filter((x): x is string => typeof x === 'string').slice(0, 3) : [],
     initialized: typeof s.initialized === 'boolean' ? s.initialized : false,
   }
 }
@@ -127,10 +187,9 @@ export function importJson(text: string): Store | null {
     if (!raw || typeof raw !== 'object') return null
     const s = raw as Partial<Store>
     if (typeof s.version !== 'number') return null
-    if (typeof s.settings !== 'object') return null
-    const st = migrate(s)
-    if (!Array.isArray(st.materials) || !Array.isArray(st.printers)) return null
-    return st
+    if (!s.settings || typeof s.settings !== 'object') return null
+    // migrate() type-checks every field, so the returned store is always safe.
+    return migrate(s)
   } catch {
     return null
   }

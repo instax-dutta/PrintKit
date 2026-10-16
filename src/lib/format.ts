@@ -33,10 +33,6 @@ function parseFraction(s: string): number {
   return Number.NaN
 }
 
-export function isValid(input: string): boolean {
-  return Number.isFinite(parseNumber(input))
-}
-
 type Kind = 'length' | 'money' | 'pct' | 'general'
 
 const KIND_DECIMALS: Record<Kind, number> = { length: 3, money: 2, pct: 1, general: 3 }

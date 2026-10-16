@@ -8,10 +8,6 @@ export function scaledDim(original: number, pct: number): number {
   return (original * pct) / 100
 }
 
-export function scaledDims(dims: number[], pct: number): number[] {
-  return dims.map((d) => scaledDim(d, pct))
-}
-
 export type FitResult = {
   scalePct: number
   limitingAxis: 'X' | 'Y' | 'Z'

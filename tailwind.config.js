@@ -6,11 +6,15 @@ export default {
     extend: {
       colors: {
         kit: {
-          bg: 'rgb(15 17 21)',
-          panel: 'rgb(22 26 33)',
-          line: 'rgb(43 49 60)',
-          dim: 'rgb(148 158 173)',
-          accent: 'rgb(96 165 250)',
+          bg: 'var(--kit-bg)',
+          panel: 'var(--kit-panel)',
+          inset: 'var(--kit-inset)',
+          panelBorder: 'var(--kit-panel-border)',
+          line: 'var(--kit-line)',
+          dim: 'var(--kit-dim)',
+          text: 'var(--kit-text)',
+          accent: 'var(--kit-accent)',
+          pink: 'var(--kit-pink)',
         },
       },
     },

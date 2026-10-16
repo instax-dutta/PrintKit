@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { Card, CopyButton, Field, FormulaNote, ResultRow, ToolPage, useParsed } from '../components/ui'
 import { computeCost, quoteText } from '../lib/calc/cost'
 import { grams } from '../lib/calc/filament'
+import { fmt } from '../lib/format'
 import { useStoreCtx } from '../lib/storeContext'
-
-const r2 = (v: number, cur: string): string => `${cur}${(Math.round(v * 100) / 100).toString()}`
 
 export default function Cost() {
   const { store } = useStoreCtx()
   const s = store.settings
   const cur = s.currency
+  const money = (v: number): string => `${cur}${fmt(v, 'money', s.decimals)}`
   const [inputMode, setInputMode] = useState<'grams' | 'length'>('grams')
   const [matId, setMatId] = useState('')
   const [customPrice, setCustomPrice, okPrice, customPriceN] = useParsed('')
@@ -55,15 +55,15 @@ export default function Cost() {
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-kit-dim">Material</span>
-            <select className="min-h-[44px] w-full rounded-lg border border-kit-line bg-kit-bg px-3 text-sm" value={matId} onChange={(e) => setMatId(e.target.value)}>
+            <select className="min-h-[44px] w-full  border border-kit-panel-border bg-kit-inset px-3 text-sm" value={matId} onChange={(e) => setMatId(e.target.value)}>
               <option value="">Choose material…</option>
               {store.materials.filter((m) => m.pricePerKg).map((m) => <option key={m.id} value={m.id}>{`${m.name} (${m.pricePerKg}${cur}/kg)`}</option>)}
               <option value="__custom">Custom…</option>
             </select>
           </label>
-          <div className="flex gap-1 rounded-lg border border-kit-line p-1">
+          <div className="flex gap-1  border border-kit-panel-border p-1">
             {(['grams', 'length'] as const).map((md) => (
-              <button key={md} type="button" onClick={() => setInputMode(md)} aria-pressed={inputMode === md} className={`min-h-[36px] flex-1 rounded text-xs font-semibold ${inputMode === md ? 'bg-kit-accent/20 text-kit-accent' : 'text-kit-dim'}`}>{md === 'grams' ? 'Grams' : 'Metres'}</button>
+              <button key={md} type="button" onClick={() => setInputMode(md)} aria-pressed={inputMode === md} className={`min-h-[36px] flex-1 text-xs font-semibold ${inputMode === md ? 'bg-kit-accent text-[#171a05]' : 'text-kit-dim'}`}>{md === 'grams' ? 'Grams' : 'Metres'}</button>
             ))}
           </div>
         </div>
@@ -96,15 +96,15 @@ export default function Cost() {
           <Field label="Markup" value={markupRaw} onChange={setMarkupRaw} suffix="%" hint="Default 0%" />
           <Field label="Quantity" value={qtyRaw} onChange={setQtyRaw} hint="Default 1" />
         </div>
-        <div className="divide-y divide-kit-line/60">
-          <ResultRow label="Material" value={ready ? r2(broke.material, cur) : null} />
-          <ResultRow label="Electricity" value={ready && Number.isFinite(totalHours) ? r2(broke.electricity, cur) : null} />
-          <ResultRow label="Machine wear" value={ready && Number.isFinite(totalHours) ? r2(broke.wear, cur) : null} />
-          <ResultRow label="Labour" value={ready ? r2(broke.labor, cur) : null} />
-          <ResultRow label="Subtotal" value={ready ? r2(broke.base, cur) : null} />
-          <ResultRow label="Failure margin" value={ready ? r2(broke.withFail - broke.base, cur) : null} hint={`+${failRaw}%`} />
-          <ResultRow label="Total per piece" value={ready ? r2(broke.total, cur) : null} hint={markupN > 0 ? `markup ${markupRaw}%` : ''} />
-          <ResultRow label="Total for quantity" value={ready ? r2(broke.totalForQty, cur) : null} hint={okQty ? `× ${qtyRaw} pc` : ''} />
+        <div className="divide-y divide-kit-line">
+          <ResultRow label="Material" value={ready ? money(broke.material) : null} />
+          <ResultRow label="Electricity" value={ready && Number.isFinite(totalHours) ? money(broke.electricity) : null} />
+          <ResultRow label="Machine wear" value={ready && Number.isFinite(totalHours) ? money(broke.wear) : null} />
+          <ResultRow label="Labour" value={ready ? money(broke.labor) : null} />
+          <ResultRow label="Subtotal" value={ready ? money(broke.base) : null} />
+          <ResultRow label="Failure margin" value={ready ? money(broke.withFail - broke.base) : null} hint={`+${failRaw}%`} />
+          <ResultRow label="Total per piece" value={ready ? money(broke.total) : null} hint={markupN > 0 ? `markup ${markupRaw}%` : ''} />
+          <ResultRow label="Total for quantity" value={ready ? money(broke.totalForQty) : null} hint={okQty ? `× ${qtyRaw} pc` : ''} />
         </div>
         {ready ? (
           <div className="mt-3 flex items-center gap-3">
@@ -112,7 +112,7 @@ export default function Cost() {
             <span className="text-xs text-kit-dim">Copy quote as text</span>
           </div>
         ) : null}
-        {ready && inputMode === 'length' ? <p className="mt-1 text-xs text-kit-dim">{`${(Math.round(gramsIn * 100) / 100).toString()} g equivalent`}</p> : null}
+        {ready && inputMode === 'length' ? <p className="mt-1 text-xs text-kit-dim">{`${fmt(gramsIn, 'general', store.settings.decimals)} g equivalent`}</p> : null}
       </Card>
 
       <FormulaNote>

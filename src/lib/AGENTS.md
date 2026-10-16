@@ -14,7 +14,7 @@ Everything that connects UI to state, platform, and formatting: number parsing/f
 
 ## Local Contracts
 
-- Store key is exactly `printkit:v1`; recents use `printkit-recents`. Any shape change requires a `migrations` entry keyed by schema version - never mutate in place.
+- Store key is exactly `printkit:v1`, and settings, materials, printers and recents all live in that one object. Any shape change requires a `migrations` entry keyed by schema version - never mutate in place.
 - `fmt(value, kind, decimals)`: `decimals = 3` expands per-kind (length 3, money 2, percent 1); other values 0-6 override globally. `parseNumber` treats comma as decimal separator; do not "fix" this.
 - One shared store instance via `storeContext`; tool pages never create their own store.
 - `theme.ts` reads `window.matchMedia` defensively so vitest jsdom can import it without crashing.

@@ -23,13 +23,13 @@ export default function Weight() {
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-kit-dim">Material</span>
-            <select className="min-h-[44px] w-full rounded-lg border border-kit-line bg-kit-bg px-3 text-sm" value={matId} onChange={(e) => setMatId(e.target.value)}>
+            <select className="min-h-[44px] w-full  border border-kit-panel-border bg-kit-inset px-3 text-sm" value={matId} onChange={(e) => setMatId(e.target.value)}>
               {store.materials.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
             </select>
           </label>
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-kit-dim">Volume unit</span>
-            <select className="min-h-[44px] w-full rounded-lg border border-kit-line bg-kit-bg px-3 text-sm" value={unit} onChange={(e) => setUnit(e.target.value as 'cm3' | 'mm3')}>
+            <select className="min-h-[44px] w-full  border border-kit-panel-border bg-kit-inset px-3 text-sm" value={unit} onChange={(e) => setUnit(e.target.value as 'cm3' | 'mm3')}>
               <option value="cm3">cm³</option>
               <option value="mm3">mm³</option>
             </select>
@@ -41,7 +41,7 @@ export default function Weight() {
           <Field label="Solid fraction (shell/perimeters part)" value={shellRaw} onChange={setShellRaw} suffix="%" hint="Default 35%; your printed estimate wins" />
           <Field label={`Material price`} value={priceRaw} onChange={setPriceRaw} suffix={`${store.settings.currency}/kg`} />
         </div>
-        <div className="divide-y divide-kit-line/60">
+        <div className="divide-y divide-kit-line">
           <ResultRow label="Estimated weight" value={Number.isFinite(g) && eff > 0 && eff <= 1 ? g : null} unit="g" decimals={store.settings.decimals} />
           <ResultRow label="Estimated material cost" value={Number.isFinite(cost) ? cost : null} unit={store.settings.currency} kind="money" />
         </div>

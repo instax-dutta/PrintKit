@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { Card, Field, ResultRow, FormulaNote, ToolPage, PresetSelect, useParsed } from '../components/ui'
 import { fitToBuild, scalePct, scaledDim } from '../lib/calc/scale'
+import { fmt } from '../lib/format'
 import { EXAMPLE_PRINTERS } from '../lib/store'
 import { useStoreCtx } from '../lib/storeContext'
 
 type Mode = 'target' | 'scale' | 'fit'
-
-const fmt2 = (n: number): string => `${(Math.round(n * 1000) / 1000).toString()}`
 
 export default function Scale() {
   const { store } = useStoreCtx()
@@ -35,7 +34,7 @@ export default function Scale() {
   const fit = okFx && okFy && okFz && volume && volume.x > 0 ? fitToBuild({ x: fxN, y: fyN, z: fzN }, { x: volume.x, y: volume.y, z: volume.z, margin: okM ? marginN : 0 }) : null
 
   const modeBtn = (m: Mode, label: string) => (
-    <button key={m} type="button" onClick={() => setMode(m)} aria-pressed={mode === m} className={`min-h-[44px] flex-1 rounded-lg border px-2 text-xs font-semibold ${mode === m ? 'border-kit-accent text-kit-accent' : 'border-kit-line text-kit-dim'}`}>{label}</button>
+    <button key={m} type="button" onClick={() => setMode(m)} aria-pressed={mode === m} className={`min-h-[44px] flex-1  border px-2 text-xs font-semibold ${mode === m ? 'border-kit-accent text-kit-accent' : 'border-kit-panel-border text-kit-dim'}`}>{label}</button>
   )
 
   return (
@@ -63,10 +62,10 @@ export default function Scale() {
           </div>
           <div className="mt-3"><Field label="Scale" value={sp} onChange={setSp} suffix="%" /></div>
           {okS && (
-            <div className="divide-y divide-kit-line/60">
-              {okX && <ResultRow label="New X" value={fmc(scaledDim(oxN, spN))} unit="mm" kind="length" decimals={store.settings.decimals} hint={`${fmc(scaledDim(oxN, spN) / 10)} cm`} />}
-              {okY && <ResultRow label="New Y" value={fmc(scaledDim(oyN, spN))} unit="mm" kind="length" decimals={store.settings.decimals} hint={`${fmc(scaledDim(oyN, spN) / 10)} cm`} />}
-              {okZ && <ResultRow label="New Z" value={fmc(scaledDim(ozN, spN))} unit="mm" kind="length" decimals={store.settings.decimals} hint={`${fmc(scaledDim(ozN, spN) / 10)} cm`} />}
+            <div className="divide-y divide-kit-line">
+              {okX && <ResultRow label="New X" value={scaledDim(oxN, spN)} unit="mm" kind="length" decimals={store.settings.decimals} hint={`${fmt(scaledDim(oxN, spN) / 10, 'general', store.settings.decimals)} cm`} />}
+              {okY && <ResultRow label="New Y" value={scaledDim(oyN, spN)} unit="mm" kind="length" decimals={store.settings.decimals} hint={`${fmt(scaledDim(oyN, spN) / 10, 'general', store.settings.decimals)} cm`} />}
+              {okZ && <ResultRow label="New Z" value={scaledDim(ozN, spN)} unit="mm" kind="length" decimals={store.settings.decimals} hint={`${fmt(scaledDim(ozN, spN) / 10, 'general', store.settings.decimals)} cm`} />}
             </div>
           )}
           <FormulaNote><p>new dim = original × scale% ÷ 100.</p></FormulaNote>
@@ -92,17 +91,13 @@ export default function Scale() {
             </div>
           )}
           {fit && (
-            <ResultRow label="Max uniform scale" value={fit.scalePct} unit="%" kind="pct" decimals={store.settings.decimals} hint={`Limiting axis: ${fit.limitingAxis}${okM && marginN > 0 ? ` (margin ${fmc(marginN)} mm)` : ''}`} />
+            <ResultRow label="Max uniform scale" value={fit.scalePct} unit="%" kind="pct" decimals={store.settings.decimals} hint={`Limiting axis: ${fit.limitingAxis}${okM && marginN > 0 ? ` (margin ${fmt(marginN, 'general', store.settings.decimals)} mm)` : ''}`} />
           )}
-          {!fit && printerId && okFx && okFy && okFz ? <p className="text-xs text-red-400">Did not fit; check the part and volume inputs.</p> : null}
+          {!fit && printerId && okFx && okFy && okFz ? <p className="text-xs text-kit-pink">Did not fit; check the part and volume inputs.</p> : null}
           <FormulaNote><p>scale = min((volumeX − 2·margin) ÷ partX, (volumeY − 2·margin) ÷ partY, volumeZ ÷ partZ) × 100. Margin applies to X and Y only.</p></FormulaNote>
         </Card>
       )}
     </ToolPage>
   )
-}
-
-function fmc(v: number): string {
-  return Number.isFinite(v) ? fmt2(v) : ''
 }
 

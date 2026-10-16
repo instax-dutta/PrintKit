@@ -38,7 +38,7 @@ export default function Calibration() {
   const warnHigh = dev != null && Number.isFinite(dev) && dev > 10
 
   const tabBtn = (t: Tab, label: string) => (
-    <button key={t} type="button" onClick={() => setTab(t)} aria-pressed={tab === t} className={`min-h-[44px] flex-1 rounded-lg border px-2 text-xs font-semibold ${tab === t ? 'border-kit-accent text-kit-accent' : 'border-kit-line text-kit-dim'}`}>{label}</button>
+    <button key={t} type="button" onClick={() => setTab(t)} aria-pressed={tab === t} className={`min-h-[44px] flex-1  border px-2 text-xs font-semibold ${tab === t ? 'border-kit-accent text-kit-accent' : 'border-kit-panel-border text-kit-dim'}`}>{label}</button>
   )
   const devHint = useMemo(
     () => (dev != null && Number.isFinite(dev) ? `deviation ${fmt(dev, 2)}% from the expected ${fmt(expN, 2)} mm` : ''),
@@ -52,7 +52,7 @@ export default function Calibration() {
       {tab === 'esteps' && (
         <Card>
           <label className="mb-3 flex min-h-[44px] items-center gap-3 text-sm">
-            <input type="checkbox" className="size-5 accent-sky-500" checked={klipper} onChange={(e) => setKlipper(e.target.checked)} />
+            <input type="checkbox" className="size-5 accent-kit-accent" checked={klipper} onChange={(e) => setKlipper(e.target.checked)} />
             Klipper mode (rotation distance)
           </label>
           <div className="grid grid-cols-3 gap-3">
@@ -76,7 +76,7 @@ export default function Calibration() {
       {tab === 'axis' && (
         <Card>
           <label className="mb-3 flex min-h-[44px] items-center gap-3 text-sm">
-            <input type="checkbox" className="size-5 accent-sky-500" checked={screwMode} onChange={(e) => setScrewMode(e.target.checked)} />
+            <input type="checkbox" className="size-5 accent-kit-accent" checked={screwMode} onChange={(e) => setScrewMode(e.target.checked)} />
             Lead screw drive
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -104,7 +104,7 @@ export default function Calibration() {
             <Field label="Measured length" value={measRaw} onChange={setMeasRaw} suffix="mm" />
           </div>
           <ResultRow label="New steps / mm" value={corr} decimals={store.settings.decimals} hint={devHint} />
-          {warnHigh ? <p className="text-xs text-red-400">Deviation over ±10% - double-check the measurements before applying.</p> : null}
+          {warnHigh ? <p className="text-xs text-kit-pink">Deviation over ±10% - double-check the measurements before applying.</p> : null}
           <FormulaNote><p>new steps/mm = current × expected ÷ measured.</p></FormulaNote>
         </Card>
       )}

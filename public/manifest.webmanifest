@@ -4,8 +4,8 @@
   "description": "Offline calculators for 3D printing: mm to cm, filament weight, print cost, scaling, flow rate, calibration and more.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#15181f",
-  "theme_color": "#15181f",
+  "background_color": "#16261e",
+  "theme_color": "#16261e",
   "lang": "en",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

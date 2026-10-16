@@ -2,43 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --kit-bg: #16261e;
+  --kit-inset: rgba(10, 17, 12, 0.65);
+  --kit-panel: rgba(10, 17, 12, 0.72);
+  --kit-panel-border: #2c4436;
+  --kit-line: #22382c;
+  --kit-dim: #9fb0a6;
+  --kit-text: #f2f2ef;
+  --kit-accent: #dff26d;
+  --kit-pink: #ff5fa2;
+  --kit-grid: rgba(40, 66, 51, 0.35);
+  --kit-grid-coarse: rgba(47, 74, 58, 0.5);
+}
+
+html.light {
+  --kit-bg: #eceee6;
+  --kit-inset: rgba(255, 255, 255, 0.85);
+  --kit-panel: #ffffff;
+  --kit-panel-border: #c9cec0;
+  --kit-line: #d5dacc;
+  --kit-dim: #57695e;
+  --kit-text: #17251d;
+  --kit-accent: #475309;
+  --kit-pink: #c2256b;
+  --kit-grid: rgba(23, 37, 29, 0.08);
+  --kit-grid-coarse: rgba(23, 37, 29, 0.14);
+  color-scheme: light;
+}
+
 html {
   color-scheme: dark;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
-html.light {
-  color-scheme: light;
-}
-html.light body {
-  background: #f4f6f9;
-}
-html.light .bg-kit-bg {
-  background-color: #f4f6f9;
-}
-html.light .bg-kit-panel {
-  background-color: #ffffff;
-}
-html.light .border-kit-line {
-  border-color: #dfe3ea;
-}
-html.light .text-zinc-100 {
-  color: #17202b;
-}
-html.light .text-kit-dim,
-html.light .text-kit-dim\/80 {
-  color: #5c6470;
+
+body {
+  min-height: 100vh;
+  color: var(--kit-text);
+  background:
+    repeating-linear-gradient(0deg, var(--kit-grid) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(90deg, var(--kit-grid) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(0deg, var(--kit-grid-coarse) 0 1px, transparent 1px 60px),
+    repeating-linear-gradient(90deg, var(--kit-grid-coarse) 0 1px, transparent 1px 60px),
+    var(--kit-bg);
+  background-attachment: fixed;
 }
 
-@keyframes fadein {
-  from { opacity: 0.4; }
-  to { opacity: 1; }
+@keyframes tapin {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .animate-fadein {
-  animation: fadein 0.15s ease-out;
+  animation: tapin 0.14s ease-out;
+}
+
+@keyframes flashpink {
+  0% { color: var(--kit-pink); }
+  100% { color: inherit; }
+}
+.flash-num {
+  animation: flashpink 0.5s ease-out;
+}
+
+.num {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.glass {
+  background-color: color-mix(in srgb, var(--kit-bg) 88%, transparent);
+  backdrop-filter: blur(8px);
 }
 
 :focus-visible {
-  outline: 2px solid #60a5fa;
+  outline: 2px solid var(--kit-pink);
   outline-offset: 2px;
 }

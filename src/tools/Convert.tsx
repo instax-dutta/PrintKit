@@ -6,6 +6,7 @@ import { parseNumber } from '../lib/format'
 import { useStoreCtx } from '../lib/storeContext'
 
 const UNIT_LABEL: Record<LenUnit, string> = { mm: 'mm', cm: 'cm', m: 'm', in: 'inches', ft: 'ft', um: 'µm' }
+const noun = (u: LenUnit, n: number): string => (u === 'in' && Math.abs(n) === 1 ? 'inch' : UNIT_LABEL[u])
 
 export default function Convert() {
   const { store } = useStoreCtx()
@@ -20,39 +21,44 @@ export default function Convert() {
   return (
     <ToolPage title="Length Converter">
       <Card>
-        <div className="mb-3 flex gap-2">
-          <button type="button" onClick={() => setUnits(['mm', 'cm'])} className={`flex h-10 flex-1 items-center justify-center gap-1 rounded-lg border text-sm font-semibold ${a === 'mm' && b === 'cm' ? 'border-kit-accent text-kit-accent' : 'border-kit-line text-kit-dim'}`} aria-pressed={a === 'mm' && b === 'cm'}>
-            mm <IcoSwap /> cm
-          </button>
-          <div className="flex w-1/2 gap-1">
-            <select className="min-h-[44px] w-1/2 rounded-lg border border-kit-line bg-kit-bg px-2 text-sm" value={a} onChange={(e) => setUnits([e.target.value as LenUnit, b])} aria-label="From unit">
+        <div className="mb-3 flex items-end gap-2">
+          <div className="min-w-0 flex-1">
+            <div className="mb-1 font-mono text-[9px] tracking-[0.16em] text-kit-dim">FROM</div>
+            <select className="num min-h-[44px] w-full border border-kit-panel-border bg-kit-inset px-2 text-sm" value={a} onChange={(e) => setUnits([e.target.value as LenUnit, b])} aria-label="From unit">
               {UNITS.map((u) => <option key={u} value={u}>{UNIT_LABEL[u]}</option>)}
             </select>
-            <select className="min-h-[44px] w-1/2 rounded-lg border border-kit-line bg-kit-bg px-2 text-sm" value={b} onChange={(e) => setUnits([a, e.target.value as LenUnit])} aria-label="To unit">
+          </div>
+          <button type="button" onClick={() => setUnits([b, a])} aria-label="Swap units" className="flex h-10 w-10 shrink-0 items-center justify-center border border-dashed border-kit-panel-border text-kit-dim active:border-kit-accent active:text-kit-accent">
+            <IcoSwap />
+          </button>
+          <div className="min-w-0 flex-1">
+            <div className="mb-1 font-mono text-[9px] tracking-[0.16em] text-kit-dim">TO</div>
+            <select className="num min-h-[44px] w-full border border-kit-panel-border bg-kit-inset px-2 text-sm" value={b} onChange={(e) => setUnits([a, e.target.value as LenUnit])} aria-label="To unit">
               {UNITS.map((u) => <option key={u} value={u}>{UNIT_LABEL[u]}</option>)}
             </select>
           </div>
         </div>
         <Field label={`Value in ${UNIT_LABEL[a]}`} value={raw} onChange={setRaw} placeholder={a === 'in' ? 'e.g. 1 3/8' : 'e.g. 25.4'} suffix={UNIT_LABEL[a]} />
-        <div className="mt-3 rounded-lg border border-kit-line bg-kit-bg p-3">
-          {ok ? (
-            <>
-              <ResultRow label={`${raw} ${UNIT_LABEL[a]} in ${UNIT_LABEL[b]}:`} value={quick} unit={UNIT_LABEL[b]} kind="length" decimals={store.settings.decimals} />
-              {a === 'in' ? <FractionRow inches={num} label={`${UNIT_LABEL[a]} fractional`} /> : b === 'in' ? <FractionRow inches={quick} label="to nearest fraction" /> : null}
-            </>
-          ) : (
+        {ok ? (
+          <div className="mt-3 divide-y divide-kit-line">
+            <ResultRow label={`${raw} ${noun(a, num)} in ${noun(b, quick)}:`} value={quick} unit={noun(b, quick)} kind="length" decimals={store.settings.decimals} />
+            {a === 'in' ? <FractionRow inches={num} label={`${UNIT_LABEL[a]} fractional`} /> : b === 'in' ? <FractionRow inches={quick} label="to nearest fraction" /> : null}
+          </div>
+        ) : (
+          <div className="mt-3">
             <ResultRow label={b === 'in' && a === 'in' ? 'inches → inches' : `${UNIT_LABEL[a]} → ${UNIT_LABEL[b]}`} value="" />
-          )}
-        </div>
+          </div>
+        )}
+
       </Card>
 
       <Card>
-        <h2 className="mb-2 text-sm font-semibold text-kit-dim">All units</h2>
-        <div className="divide-y divide-kit-line/60">
+        <div className="mb-2 w-max -rotate-1 bg-[#efe9e2] px-2 py-0.5 font-mono text-[9px] font-bold tracking-[0.18em] text-[#5a564c]">ALL UNITS</div>
+        <div className="divide-y divide-kit-line">
           {ok
             ? convertAll(mm)
-                .filter((r) => r.unit !== a)
-                .map((r) => <ResultRow key={r.unit} label={`in ${UNIT_LABEL[r.unit]}`} value={r.value} unit={UNIT_LABEL[r.unit]} kind="length" decimals={store.settings.decimals} />)
+                .filter((r) => r.unit !== a && r.unit !== b)
+                .map((r) => <ResultRow key={r.unit} label={`in ${noun(r.unit, r.value)}`} value={r.value} unit={noun(r.unit, r.value)} kind="length" decimals={store.settings.decimals} />)
             : (UNITS.map((u) => <ResultRow key={u} label={`in ${UNIT_LABEL[u]}`} value="" unit={UNIT_LABEL[u]} />))}
         </div>
       </Card>

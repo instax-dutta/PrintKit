@@ -53,13 +53,13 @@ export default function Presets() {
     <ToolPage title="Presets">
       <div className="flex gap-2">
         {(['materials', 'printers'] as const).map((t) => (
-          <button key={t} type="button" onClick={() => setTab(t)} aria-pressed={tab === t} className={`min-h-[44px] flex-1 rounded-lg border px-2 text-xs font-semibold ${tab === t ? 'border-kit-accent text-kit-accent' : 'border-kit-line text-kit-dim'}`}>{t === 'materials' ? 'Materials' : 'Printers'}</button>
+          <button key={t} type="button" onClick={() => setTab(t)} aria-pressed={tab === t} className={`min-h-[44px] flex-1  border px-2 text-xs font-semibold ${tab === t ? 'border-kit-accent text-kit-accent' : 'border-kit-panel-border text-kit-dim'}`}>{t === 'materials' ? 'Materials' : 'Printers'}</button>
         ))}
       </div>
 
       {tab === 'materials' && (
         <Card>
-          <ul className="divide-y divide-kit-line/60">
+          <ul className="divide-y divide-kit-line">
             {store.materials.map((m) => (
               <li key={m.id} className="flex min-h-[44px] items-center justify-between gap-2 py-2 text-sm">
                 <span className="min-w-0">
@@ -68,21 +68,21 @@ export default function Presets() {
                   {m.builtIn ? <span className="ml-2 rounded bg-white/10 px-1 text-[10px] text-kit-dim">built-in</span> : null}
                 </span>
                 <span className="flex gap-1">
-                  {m.builtIn ? <button type="button" onClick={() => duplicate(m)} className="min-h-[44px] rounded-lg border border-kit-line px-2 text-xs">Duplicate & edit</button>
-                    : <button type="button" onClick={() => setEdit(m)} className="min-h-[44px] rounded-lg border border-kit-line px-2 text-xs">Edit</button>}
-                  {!m.builtIn ? <button type="button" onClick={() => delMat(m)} className="min-h-[44px] rounded-lg border border-kit-line px-2 text-xs text-red-400">Delete</button> : null}
+                  {m.builtIn ? <button type="button" onClick={() => duplicate(m)} className="min-h-[44px]  border border-kit-panel-border px-2 text-xs">Duplicate & edit</button>
+                    : <button type="button" onClick={() => setEdit(m)} className="min-h-[44px]  border border-kit-panel-border px-2 text-xs">Edit</button>}
+                  {!m.builtIn ? <button type="button" onClick={() => delMat(m)} className="min-h-[44px]  border border-kit-panel-border px-2 text-xs text-kit-pink">Delete</button> : null}
                 </span>
               </li>
             ))}
           </ul>
-          <button type="button" onClick={() => setEdit({})} className="mt-3 min-h-[44px] w-full rounded-lg border border-kit-accent text-sm font-semibold text-kit-accent">+ Add material</button>
-          <button type="button" onClick={() => { setMaterials(builtinMaterials()); flash('Built-in materials reset') }} className="mt-2 min-h-[44px] w-full rounded-lg border border-kit-line text-xs text-kit-dim">Reset built-in materials</button>
+          <button type="button" onClick={() => setEdit({})} className="mt-3 min-h-[44px] w-full  border border-kit-accent text-sm font-semibold text-kit-accent">+ Add material</button>
+          <button type="button" onClick={() => { setMaterials(builtinMaterials()); flash('Built-in materials reset') }} className="mt-2 min-h-[44px] w-full  border border-kit-panel-border text-xs text-kit-dim">Reset built-in materials</button>
         </Card>
       )}
 
       {tab === 'printers' && (
         <Card>
-          <ul className="divide-y divide-kit-line/60">
+          <ul className="divide-y divide-kit-line">
             {store.printers.map((p) => (
               <li key={p.id} className="flex min-h-[44px] items-center justify-between gap-2 py-2 text-sm">
                 <span className="min-w-0">
@@ -90,18 +90,18 @@ export default function Presets() {
                   <span className="ml-2 text-xs text-kit-dim">{p.buildX}×{p.buildY}×{p.buildZ} · {p.powerW}W</span>
                 </span>
                 <span className="flex gap-1">
-                  <button type="button" onClick={() => setEditP(p)} className="min-h-[44px] rounded-lg border border-kit-line px-2 text-xs">Edit</button>
-                  <button type="button" onClick={() => setPrinters(store.printers.filter((x) => x.id !== p.id))} className="min-h-[44px] rounded-lg border border-kit-line px-2 text-xs text-red-400">Delete</button>
+                  <button type="button" onClick={() => setEditP(p)} className="min-h-[44px]  border border-kit-panel-border px-2 text-xs">Edit</button>
+                  <button type="button" onClick={() => setPrinters(store.printers.filter((x) => x.id !== p.id))} className="min-h-[44px]  border border-kit-panel-border px-2 text-xs text-kit-pink">Delete</button>
                 </span>
               </li>
             ))}
           </ul>
-          <button type="button" onClick={() => setEditP({})} className="mt-3 min-h-[44px] w-full rounded-lg border border-kit-accent text-sm font-semibold text-kit-accent">+ Add printer</button>
+          <button type="button" onClick={() => setEditP({})} className="mt-3 min-h-[44px] w-full  border border-kit-accent text-sm font-semibold text-kit-accent">+ Add printer</button>
           <div className="mt-2">
             <p className="mb-1 text-xs text-kit-dim">Templates, one tap to add:</p>
             <div className="grid grid-cols-1 gap-2">
               {EXAMPLE_PRINTERS.map((tpl) => (
-                <button key={tpl.id} type="button" onClick={() => { setPrinters([...store.printers.filter((x) => x.id !== tpl.id), { ...tpl, id: uid() }]); flash(`${tpl.name} added`) }} className="min-h-[44px] rounded-lg border border-kit-line px-3 text-left text-xs">
+                <button key={tpl.id} type="button" onClick={() => { setPrinters([...store.printers.filter((x) => x.id !== tpl.id), { ...tpl, id: uid() }]); flash(`${tpl.name} added`) }} className="min-h-[44px]  border border-kit-panel-border px-3 text-left text-xs">
                   + {tpl.name}, {tpl.powerW}W typical
                 </button>
               ))}
@@ -119,8 +119,8 @@ export default function Presets() {
             <Field label="Shrinkage" value={String(edit.shrinkagePct ?? '')} onChange={(v) => setEdit({ ...edit, shrinkagePct: parseFloat(v) })} suffix="%" />
           </div>
           <div className="mt-3 flex gap-2">
-            <button type="button" onClick={saveMaterial} className="min-h-[44px] flex-1 rounded-lg bg-kit-accent text-sm font-semibold text-black">Save</button>
-            <button type="button" onClick={() => setEdit(null)} className="min-h-[44px] flex-1 rounded-lg border border-kit-line text-sm">Cancel</button>
+            <button type="button" onClick={saveMaterial} className="min-h-[44px] flex-1  bg-kit-accent text-sm font-semibold text-black">Save</button>
+            <button type="button" onClick={() => setEdit(null)} className="min-h-[44px] flex-1  border border-kit-panel-border text-sm">Cancel</button>
           </div>
         </Card>
       )}
@@ -137,8 +137,8 @@ export default function Presets() {
             <Field label="Wear / hour" value={String(editP.wearPerHour ?? '')} onChange={(v) => setEditP({ ...editP, wearPerHour: parseFloat(v) })} suffix="/h" />
           </div>
           <div className="mt-3 flex gap-2">
-            <button type="button" onClick={savePrinter} className="min-h-[44px] flex-1 rounded-lg bg-kit-accent text-sm font-semibold text-black">Save</button>
-            <button type="button" onClick={() => setEditP(null)} className="min-h-[44px] flex-1 rounded-lg border border-kit-line text-sm">Cancel</button>
+            <button type="button" onClick={savePrinter} className="min-h-[44px] flex-1  bg-kit-accent text-sm font-semibold text-black">Save</button>
+            <button type="button" onClick={() => setEditP(null)} className="min-h-[44px] flex-1  border border-kit-panel-border text-sm">Cancel</button>
           </div>
         </Card>
       )}

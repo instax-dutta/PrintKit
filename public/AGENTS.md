@@ -13,13 +13,13 @@ Everything served verbatim at the site root: service worker, manifest, and icons
 
 ## Local Contracts
 
-- `sw.js` cache version string is bumped manually per release (currently `printkit-v1`); clients update via skipWaiting + in-app banner. The build never edits `sw.js`.
+- `sw.js` ships a `printkit-v1` placeholder that the `stamp-service-worker` plugin in `vite.config.ts` replaces with a fresh version in `dist/sw.js` on every build; clients update via skipWaiting + in-app banner, and `activate` deletes the previous cache.
 - Manifest icon paths and sizes must match the generated PNG names exactly; a mismatch breaks installability.
 - Do not vendor binary assets here; icons regenerate from `icon.svg`.
 
 ## Work Guidance
 
-- Changes to `sw.js` logic require a version bump in the same change, or existing clients never refresh.
+- Keep the `printkit-v1` string in `public/sw.js` as the placeholder the build substitutes; changing its wording silently disables version stamping.
 - Keep the manifest lean: `GATES.md` G2 checks these assets exist in `dist/` after build.
 
 ## Verification

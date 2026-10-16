@@ -39,26 +39,6 @@ export const TOOLS: Tool[] = [
   { slug: 'settings', name: 'Settings', desc: 'Currency, units, storage import/export, theme', keywords: 'settings currency decimals theme import export', Component: SettingsTool },
 ]
 
-export const RECENTS = 'printkit-recents'
-export const MAX_RECENT = 3
-
-export const recentTools = (): string[] => {
-  try {
-    return JSON.parse(localStorage.getItem(RECENTS) ?? '[]') as string[]
-  } catch {
-    return []
-  }
-}
-
-export const pushRecent = (slug: string) => {
-  try {
-    const next = [slug, ...recentTools().filter((s) => s !== slug)].slice(0, MAX_RECENT)
-    localStorage.setItem(RECENTS, JSON.stringify(next))
-  } catch {
-    /* storage disabled: recents stay empty */
-  }
-}
-
 export const forSlug = (slug: string): Tool | undefined => TOOLS.find((t) => t.slug === slug)
 
 // Command palette + home search: one match anywhere in name/description/keywords.
