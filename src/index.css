@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: dark;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+html.light {
+  color-scheme: light;
+}
+html.light body {
+  background: #f4f6f9;
+}
+html.light .bg-kit-bg {
+  background-color: #f4f6f9;
+}
+html.light .bg-kit-panel {
+  background-color: #ffffff;
+}
+html.light .border-kit-line {
+  border-color: #dfe3ea;
+}
+html.light .text-zinc-100 {
+  color: #17202b;
+}
+html.light .text-kit-dim,
+html.light .text-kit-dim\/80 {
+  color: #5c6470;
+}
+
+@keyframes fadein {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+.animate-fadein {
+  animation: fadein 0.15s ease-out;
+}
+
+:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}

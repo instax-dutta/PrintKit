@@ -1,0 +1,11 @@
+[
+  { "id": "pla", "name": "PLA", "density": 1.24, "pricePerKg": 1000, "shrinkagePct": 0.3, "nozzleC": "190-220", "bedC": "50-65", "dry": "45 °C, 4-6 h", "enclosure": false, "notes": "Easy to print; low warp." },
+  { "id": "pla-plus", "name": "PLA+", "density": 1.24, "pricePerKg": 1200, "shrinkagePct": 0.3, "nozzleC": "200-230", "bedC": "50-65", "dry": "45 °C, 4-6 h", "enclosure": false, "notes": "Tougher than PLA." },
+  { "id": "petg", "name": "PETG", "density": 1.27, "pricePerKg": 1300, "shrinkagePct": 0.4, "nozzleC": "230-250", "bedC": "70-85", "dry": "65 °C, 4-6 h", "enclosure": false, "notes": "Stringy; keep parts cool." },
+  { "id": "abs", "name": "ABS", "density": 1.04, "pricePerKg": 1200, "shrinkagePct": 0.7, "nozzleC": "230-260", "bedC": "90-110", "dry": "80 °C, 4 h", "enclosure": true, "notes": "Warp-prone; needs enclosure." },
+  { "id": "asa", "name": "ASA", "density": 1.07, "pricePerKg": 1800, "shrinkagePct": 0.6, "nozzleC": "240-260", "bedC": "90-110", "dry": "80 °C, 4 h", "enclosure": true, "notes": "UV-stable ABS alternative." },
+  { "id": "tpu95a", "name": "TPU (95A)", "density": 1.21, "pricePerKg": 1600, "shrinkagePct": 0.5, "nozzleC": "210-240", "bedC": "30-60", "dry": "50 °C, 6 h", "enclosure": false, "notes": "Flexible; print slow and direct drive." },
+  { "id": "nylon", "name": "Nylon (PA12/PA6)", "density": 1.10, "pricePerKg": 2500, "shrinkagePct": 1.5, "nozzleC": "240-270", "bedC": "70-90", "dry": "80 °C, 8-12 h", "enclosure": true, "notes": "Hygroscopic; dry before use." },
+  { "id": "pc", "name": "PC", "density": 1.20, "pricePerKg": 3000, "shrinkagePct": 0.7, "nozzleC": "260-300", "bedC": "100-120", "dry": "80 °C, 6 h", "enclosure": true, "notes": "High temp; strong." },
+  { "id": "pla-cf", "name": "PLA-CF / PETG-CF", "density": 1.30, "pricePerKg": 2200, "shrinkagePct": 0.2, "nozzleC": "per base", "bedC": "per base", "dry": "per base", "enclosure": false, "notes": "Abrasive; hardened nozzle required." }
+]

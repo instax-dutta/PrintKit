@@ -1,0 +1,16 @@
+{
+  "name": "PrintKit — 3D printing calculators",
+  "short_name": "PrintKit",
+  "description": "Offline calculators for 3D printing: mm to cm, filament weight, print cost, scaling, flow rate, calibration and more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#15181f",
+  "theme_color": "#15181f",
+  "lang": "en",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

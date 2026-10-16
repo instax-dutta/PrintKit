@@ -1,0 +1,14 @@
+{
+  "disclaimer": "Typical values. Check manufacturer datasheets.",
+  "metricScrews": [
+    { "screw": "M2", "clearanceDia": 2.4, "tapDia": 1.6, "heatSetDia": 3.1, "heatSetDepth": 4.0 },
+    { "screw": "M2.5", "clearanceDia": 2.7, "tapDia": 2.0, "heatSetDia": 3.6, "heatSetDepth": 5.0 },
+    { "screw": "M3", "clearanceDia": 3.2, "tapDia": 2.5, "heatSetDia": 4.2, "heatSetDepth": 5.5 },
+    { "screw": "M4", "clearanceDia": 4.3, "tapDia": 3.3, "heatSetDia": 5.5, "heatSetDepth": 6.5 },
+    { "screw": "M5", "clearanceDia": 5.3, "tapDia": 4.2, "heatSetDia": 6.5, "heatSetDepth": 7.5 },
+    { "screw": "M6", "clearanceDia": 6.4, "tapDia": 5.0, "heatSetDia": 8.0, "heatSetDepth": 9.0 },
+    { "screw": "M8", "clearanceDia": 8.4, "tapDia": 6.8, "heatSetDia": 10.0, "heatSetDepth": 10.5 }
+  ],
+  "magnetPocketPerSideMm": "0.2-0.4",
+  "magnetPocketNote": "Add 0.2-0.4 mm to magnet diameter per side, or 0.2-0.5 percent for force fit; check your specific magnet grade and wall thickness."
+}

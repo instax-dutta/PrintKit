@@ -1,0 +1,11 @@
+{
+  "disclaimer": "Typical values. Check manufacturer datasheets.",
+  "pairs": [
+    { "nozzle": 0.2, "lineWidth": "0.25-0.30", "layerHeight": "0.08-0.20" },
+    { "nozzle": 0.3, "lineWidth": "0.30-0.45", "layerHeight": "0.10-0.30" },
+    { "nozzle": 0.4, "lineWidth": "0.35-0.55", "layerHeight": "0.12-0.40" },
+    { "nozzle": 0.6, "lineWidth": "0.50-0.80", "layerHeight": "0.15-0.60" },
+    { "nozzle": 0.8, "lineWidth": "0.65-1.05", "layerHeight": "0.20-0.80" }
+  ],
+  "ruleOfThumb": "Line width 1.0-1.2x nozzle; layer height 20-70% of nozzle (most parts 25-40%)."
+}
